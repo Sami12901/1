@@ -36,13 +36,11 @@ impl MediaPanel {
 
             ui.separator();
 
-            ScrollArea::vertical().show(ui, |ui| {
-                match self.active_tab {
-                    MediaTab::Media => Self::render_media_tab(ui, timeline),
-                    MediaTab::Text => Self::render_text_tab(ui, timeline),
-                    MediaTab::Audio => Self::render_audio_tab(ui, timeline),
-                    MediaTab::Filters => Self::render_filters_tab(ui, timeline),
-                }
+            ScrollArea::vertical().show(ui, |ui| match self.active_tab {
+                MediaTab::Media => Self::render_media_tab(ui, timeline),
+                MediaTab::Text => Self::render_text_tab(ui, timeline),
+                MediaTab::Audio => Self::render_audio_tab(ui, timeline),
+                MediaTab::Filters => Self::render_filters_tab(ui, timeline),
             });
         });
     }
@@ -62,7 +60,10 @@ impl MediaPanel {
             .clicked()
         {
             if let Some(path) = rfd::FileDialog::new()
-                .add_filter("Media Files", &["mp4", "mov", "mkv", "png", "jpg", "jpeg", "webp"])
+                .add_filter(
+                    "Media Files",
+                    &["mp4", "mov", "mkv", "png", "jpg", "jpeg", "webp"],
+                )
                 .pick_file()
             {
                 let path_str = path.to_string_lossy().to_string();
@@ -78,7 +79,11 @@ impl MediaPanel {
         }
 
         ui.add_space(8.0);
-        ui.label(RichText::new("Built-in Generators").color(CapBdTheme::TEXT_SECONDARY).size(11.0));
+        ui.label(
+            RichText::new("Built-in Generators")
+                .color(CapBdTheme::TEXT_SECONDARY)
+                .size(11.0),
+        );
 
         let presets = [
             ("SMPTE Bars", TestPattern::SmpteColorBars, 150),
@@ -103,7 +108,13 @@ impl MediaPanel {
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                         if ui.button("+ Add").clicked() {
                             let start = timeline.playhead_frame;
-                            let clip = Clip::new_synthetic(label, MediaKind::Video, pattern, start, duration);
+                            let clip = Clip::new_synthetic(
+                                label,
+                                MediaKind::Video,
+                                pattern,
+                                start,
+                                duration,
+                            );
                             timeline.add_clip_to_best_track(clip);
                         }
                     });
@@ -113,7 +124,11 @@ impl MediaPanel {
     }
 
     fn render_text_tab(ui: &mut Ui, timeline: &mut Timeline) {
-        ui.label(RichText::new("Title & Text Presets").color(CapBdTheme::TEXT_SECONDARY).size(11.0));
+        ui.label(
+            RichText::new("Title & Text Presets")
+                .color(CapBdTheme::TEXT_SECONDARY)
+                .size(11.0),
+        );
 
         let text_presets = [
             "CapBD Masterpiece",
@@ -139,7 +154,11 @@ impl MediaPanel {
     }
 
     fn render_audio_tab(ui: &mut Ui, timeline: &mut Timeline) {
-        ui.label(RichText::new("Sound Effects & Audio").color(CapBdTheme::TEXT_SECONDARY).size(11.0));
+        ui.label(
+            RichText::new("Sound Effects & Audio")
+                .color(CapBdTheme::TEXT_SECONDARY)
+                .size(11.0),
+        );
 
         let audio_presets = [
             ("Background Beat (Synth)", 300),
@@ -154,7 +173,13 @@ impl MediaPanel {
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                         if ui.button("+ Add").clicked() {
                             let start = timeline.playhead_frame;
-                            let clip = Clip::new_synthetic(name, MediaKind::Audio, TestPattern::AudioWaveformPulse, start, duration);
+                            let clip = Clip::new_synthetic(
+                                name,
+                                MediaKind::Audio,
+                                TestPattern::AudioWaveformPulse,
+                                start,
+                                duration,
+                            );
                             timeline.add_clip_to_best_track(clip);
                         }
                     });
@@ -164,7 +189,11 @@ impl MediaPanel {
     }
 
     fn render_filters_tab(ui: &mut Ui, timeline: &mut Timeline) {
-        ui.label(RichText::new("Color LUTs & Adjustment Presets").color(CapBdTheme::TEXT_SECONDARY).size(11.0));
+        ui.label(
+            RichText::new("Color LUTs & Adjustment Presets")
+                .color(CapBdTheme::TEXT_SECONDARY)
+                .size(11.0),
+        );
 
         let filters = [
             ("Cyberpunk (High Sat + Vignette)", 1.4, 0.2, 0.4),

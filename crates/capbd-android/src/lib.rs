@@ -14,8 +14,9 @@ fn android_main(app: AndroidApp) {
     info!("Initializing CapBD on Android via Native Activity...");
 
     loop {
-        app.poll_events(Some(std::time::Duration::from_millis(16)), |event| {
-            match event {
+        app.poll_events(
+            Some(std::time::Duration::from_millis(16)),
+            |event| match event {
                 android_activity::PollEvent::Wake => {
                     info!("Android event loop woke");
                 }
@@ -24,8 +25,8 @@ fn android_main(app: AndroidApp) {
                     info!("Android lifecycle event: {:?}", main_event);
                 }
                 _ => {}
-            }
-        });
+            },
+        );
     }
 }
 

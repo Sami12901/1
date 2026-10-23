@@ -43,7 +43,12 @@ impl ExportDialog {
             .show(ctx, |ui| {
                 ui.set_min_width(380.0);
                 ui.vertical(|ui| {
-                    ui.label(RichText::new("Export Settings").strong().color(Color32::WHITE).size(14.0));
+                    ui.label(
+                        RichText::new("Export Settings")
+                            .strong()
+                            .color(Color32::WHITE)
+                            .size(14.0),
+                    );
                     ui.add_space(8.0);
 
                     // Resolution
@@ -87,7 +92,9 @@ impl ExportDialog {
                     });
 
                     if !self.status_message.is_empty() {
-                        ui.label(RichText::new(&self.status_message).color(CapBdTheme::ACCENT_CYAN));
+                        ui.label(
+                            RichText::new(&self.status_message).color(CapBdTheme::ACCENT_CYAN),
+                        );
                     }
 
                     if self.is_exporting {
@@ -103,9 +110,7 @@ impl ExportDialog {
                         }
 
                         let start_btn = egui::Button::new(
-                            RichText::new("Start Export")
-                                .color(Color32::BLACK)
-                                .strong(),
+                            RichText::new("Start Export").color(Color32::BLACK).strong(),
                         )
                         .fill(CapBdTheme::ACCENT_CYAN);
 
@@ -122,7 +127,8 @@ impl ExportDialog {
                             ) {
                                 Ok(_) => {
                                     self.export_progress = 1.0;
-                                    self.status_message = format!("Export successful: {}", path.display());
+                                    self.status_message =
+                                        format!("Export successful: {}", path.display());
                                 }
                                 Err(e) => {
                                     self.status_message = format!("Export error: {}", e);

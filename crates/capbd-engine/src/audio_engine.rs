@@ -24,7 +24,10 @@ impl AudioEngine {
                 true
             }
             Err(e) => {
-                warn!("No audio device available or permission denied (headless/CI): {}", e);
+                warn!(
+                    "No audio device available or permission denied (headless/CI): {}",
+                    e
+                );
                 false
             }
         };

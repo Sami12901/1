@@ -46,13 +46,11 @@ impl Project {
     }
 
     pub fn to_json(&self) -> Result<String> {
-        serde_json::to_string_pretty(self)
-            .map_err(|e| CoreError::SerializationError(e.to_string()))
+        serde_json::to_string_pretty(self).map_err(|e| CoreError::SerializationError(e.to_string()))
     }
 
     pub fn from_json(json_str: &str) -> Result<Self> {
-        serde_json::from_str(json_str)
-            .map_err(|e| CoreError::DeserializationError(e.to_string()))
+        serde_json::from_str(json_str).map_err(|e| CoreError::DeserializationError(e.to_string()))
     }
 }
 

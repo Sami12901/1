@@ -100,7 +100,9 @@ impl TimelineCompositor {
         }
 
         for (track, clip) in active_clips {
-            if track.is_hidden || track.is_muted && track.track_type == capbd_core::track::TrackType::Audio {
+            if track.is_hidden
+                || track.is_muted && track.track_type == capbd_core::track::TrackType::Audio
+            {
                 continue;
             }
 
@@ -149,9 +151,12 @@ impl TimelineCompositor {
                 let mut g = source.data[si + 1] as f32;
                 let mut b = source.data[si + 2] as f32;
 
-                r = ((r * exposure_mul + brightness_add - 128.0) * contrast_mul + 128.0).clamp(0.0, 255.0);
-                g = ((g * exposure_mul + brightness_add - 128.0) * contrast_mul + 128.0).clamp(0.0, 255.0);
-                b = ((b * exposure_mul + brightness_add - 128.0) * contrast_mul + 128.0).clamp(0.0, 255.0);
+                r = ((r * exposure_mul + brightness_add - 128.0) * contrast_mul + 128.0)
+                    .clamp(0.0, 255.0);
+                g = ((g * exposure_mul + brightness_add - 128.0) * contrast_mul + 128.0)
+                    .clamp(0.0, 255.0);
+                b = ((b * exposure_mul + brightness_add - 128.0) * contrast_mul + 128.0)
+                    .clamp(0.0, 255.0);
 
                 // Saturation
                 let luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;

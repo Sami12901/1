@@ -22,12 +22,7 @@ impl Default for TimelineView {
 }
 
 impl TimelineView {
-    pub fn render(
-        &mut self,
-        ui: &mut Ui,
-        timeline: &mut Timeline,
-        history: &mut HistoryManager,
-    ) {
+    pub fn render(&mut self, ui: &mut Ui, timeline: &mut Timeline, history: &mut HistoryManager) {
         ui.vertical(|ui| {
             // 1. Timeline Toolbar
             self.render_toolbar(ui, timeline, history);
@@ -71,7 +66,11 @@ impl TimelineView {
                 vec2(28.0, 28.0),
                 "Delete Selected Clip (Del)",
                 |p, r, c| {
-                    let col = if has_selection { c } else { CapBdTheme::TEXT_MUTED };
+                    let col = if has_selection {
+                        c
+                    } else {
+                        CapBdTheme::TEXT_MUTED
+                    };
                     Icons::draw_trash(p, r, col);
                 },
             );
@@ -97,7 +96,11 @@ impl TimelineView {
             }
 
             // Timeline Zoom Slider
-            ui.label(RichText::new("Zoom").color(CapBdTheme::TEXT_MUTED).size(11.0));
+            ui.label(
+                RichText::new("Zoom")
+                    .color(CapBdTheme::TEXT_MUTED)
+                    .size(11.0),
+            );
             ui.add(egui::Slider::new(&mut self.zoom_px_per_frame, 1.0..=15.0).show_value(false));
 
             // Current Frame / Total indicator
@@ -126,13 +129,17 @@ impl TimelineView {
         let track_height = 48.0;
 
         let total_frames = timeline.total_duration_frames().max(300);
-        let content_width = (total_frames as f32 * self.zoom_px_per_frame).max(ui.available_width() - header_width);
+        let content_width =
+            (total_frames as f32 * self.zoom_px_per_frame).max(ui.available_width() - header_width);
 
         ScrollArea::both().show(ui, |ui| {
             let total_tracks = timeline.tracks.len();
             let total_height = ruler_height + (total_tracks as f32 * (track_height + 4.0)) + 40.0;
 
-            let (full_rect, full_resp) = ui.allocate_exact_size(vec2(header_width + content_width, total_height), Sense::click_and_drag());
+            let (full_rect, full_resp) = ui.allocate_exact_size(
+                vec2(header_width + content_width, total_height),
+                Sense::click_and_drag(),
+            );
             let painter = ui.painter_at(full_rect);
 
             let tracks_rect = Rect::from_min_max(
@@ -153,9 +160,13 @@ impl TimelineView {
             }
 
             // 1. Draw Time Ruler at the top
-            let ruler_rect = Rect::from_min_size(tracks_rect.min, vec2(tracks_rect.width(), ruler_height));
+            let ruler_rect =
+                Rect::from_min_size(tracks_rect.min, vec2(tracks_rect.width(), ruler_height));
             painter.rect_filled(ruler_rect, 0.0, Color32::from_rgb(20, 20, 26));
-            painter.line_segment([ruler_rect.left_bottom(), ruler_rect.right_bottom()], Stroke::new(1.0, CapBdTheme::BORDER));
+            painter.line_segment(
+                [ruler_rect.left_bottom(), ruler_rect.right_bottom()],
+                Stroke::new(1.0_f32, CapBdTheme::BORDER),
+            );
 
             // Time ruler tick marks (every 30 frames / 1s)
             let frames_per_second = timeline.fps.round() as u64;
@@ -166,7 +177,13 @@ impl TimelineView {
                 let sec_rem = seconds % 60;
 
                 // Major tick
-                painter.line_segment([pos2(x, ruler_rect.bottom() - 10.0), pos2(x, ruler_rect.bottom())], Stroke::new(1.0, Color32::from_rgb(100, 100, 115)));
+                painter.line_segment(
+                    [
+                        pos2(x, ruler_rect.bottom() - 10.0),
+                        pos2(x, ruler_rect.bottom()),
+                    ],
+                    Stroke::new(1.0_f32, Color32::from_rgb(100, 100, 115)),
+                );
 
                 painter.text(
                     pos2(x + 3.0, ruler_rect.top() + 4.0),
@@ -179,16 +196,30 @@ impl TimelineView {
 
             // 2. Draw Track Lanes
             for (track_idx, track) in timeline.tracks.iter_mut().enumerate() {
-                let track_top = ruler_rect.bottom() + 4.0 + (track_idx as f32 * (track_height + 4.0));
-                let track_lane_rect = Rect::from_min_size(pos2(tracks_rect.left(), track_top), vec2(tracks_rect.width(), track_height));
-                let track_header_rect = Rect::from_min_size(pos2(full_rect.left(), track_top), vec2(header_width, track_height));
+                let track_top =
+                    ruler_rect.bottom() + 4.0 + (track_idx as f32 * (track_height + 4.0));
+                let track_lane_rect = Rect::from_min_size(
+                    pos2(tracks_rect.left(), track_top),
+                    vec2(tracks_rect.width(), track_height),
+                );
+                let track_header_rect = Rect::from_min_size(
+                    pos2(full_rect.left(), track_top),
+                    vec2(header_width, track_height),
+                );
 
                 // Header
                 painter.rect_filled(track_header_rect, 4.0, CapBdTheme::BG_CARD);
-                painter.rect_stroke(track_header_rect, 4.0, Stroke::new(1.0, CapBdTheme::BORDER));
+                painter.rect_stroke(
+                    track_header_rect,
+                    4.0,
+                    Stroke::new(1.0_f32, CapBdTheme::BORDER),
+                );
 
                 painter.text(
-                    pos2(track_header_rect.left() + 8.0, track_header_rect.top() + 8.0),
+                    pos2(
+                        track_header_rect.left() + 8.0,
+                        track_header_rect.top() + 8.0,
+                    ),
                     egui::Align2::LEFT_TOP,
                     &track.name,
                     egui::FontId::proportional(12.0),
@@ -197,13 +228,21 @@ impl TimelineView {
 
                 // Track lane background
                 painter.rect_filled(track_lane_rect, 4.0, Color32::from_rgb(18, 18, 23));
-                painter.rect_stroke(track_lane_rect, 4.0, Stroke::new(1.0, Color32::from_rgb(28, 28, 36)));
+                painter.rect_stroke(
+                    track_lane_rect,
+                    4.0,
+                    Stroke::new(1.0_f32, Color32::from_rgb(28, 28, 36)),
+                );
 
                 // Clips in track
                 for clip in &track.clips {
-                    let clip_x = tracks_rect.left() + (clip.start_frame as f32 * self.zoom_px_per_frame);
+                    let clip_x =
+                        tracks_rect.left() + (clip.start_frame as f32 * self.zoom_px_per_frame);
                     let clip_w = (clip.duration_frames as f32 * self.zoom_px_per_frame).max(8.0);
-                    let clip_rect = Rect::from_min_size(pos2(clip_x, track_top + 4.0), vec2(clip_w, track_height - 8.0));
+                    let clip_rect = Rect::from_min_size(
+                        pos2(clip_x, track_top + 4.0),
+                        vec2(clip_w, track_height - 8.0),
+                    );
 
                     let is_selected = timeline.selected_clip_id == Some(clip.id);
 
@@ -233,8 +272,12 @@ impl TimelineView {
                     }
 
                     // Trim Handles on Left and Right
-                    let left_handle = Rect::from_min_size(clip_rect.min, vec2(6.0, clip_rect.height()));
-                    let right_handle = Rect::from_min_size(pos2(clip_rect.right() - 6.0, clip_rect.top()), vec2(6.0, clip_rect.height()));
+                    let left_handle =
+                        Rect::from_min_size(clip_rect.min, vec2(6.0, clip_rect.height()));
+                    let right_handle = Rect::from_min_size(
+                        pos2(clip_rect.right() - 6.0, clip_rect.top()),
+                        vec2(6.0, clip_rect.height()),
+                    );
                     painter.rect_filled(left_handle, 2.0, Color32::from_black_alpha(80));
                     painter.rect_filled(right_handle, 2.0, Color32::from_black_alpha(80));
 
@@ -257,10 +300,14 @@ impl TimelineView {
             }
 
             // 3. Draw Red/Cyan Scrubber Playhead Line
-            let playhead_x = tracks_rect.left() + (timeline.playhead_frame as f32 * self.zoom_px_per_frame);
+            let playhead_x =
+                tracks_rect.left() + (timeline.playhead_frame as f32 * self.zoom_px_per_frame);
             painter.line_segment(
-                [pos2(playhead_x, ruler_rect.top()), pos2(playhead_x, full_rect.bottom())],
-                Stroke::new(2.0, Color32::from_rgb(255, 59, 48)), // CapCut Playhead Red
+                [
+                    pos2(playhead_x, ruler_rect.top()),
+                    pos2(playhead_x, full_rect.bottom()),
+                ],
+                Stroke::new(2.0_f32, Color32::from_rgb(255, 59, 48)), // CapCut Playhead Red
             );
 
             // Playhead scrubber handle at top

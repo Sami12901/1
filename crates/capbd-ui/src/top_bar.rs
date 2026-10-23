@@ -67,7 +67,11 @@ impl TopBar {
                 vec2(28.0, 28.0),
                 "Undo (Ctrl+Z)",
                 |painter, rect, color| {
-                    let col = if history.can_undo() { color } else { CapBdTheme::TEXT_MUTED };
+                    let col = if history.can_undo() {
+                        color
+                    } else {
+                        CapBdTheme::TEXT_MUTED
+                    };
                     Icons::draw_undo(painter, rect, col);
                 },
             );
@@ -81,7 +85,11 @@ impl TopBar {
                 vec2(28.0, 28.0),
                 "Redo (Ctrl+Y)",
                 |painter, rect, color| {
-                    let col = if history.can_redo() { color } else { CapBdTheme::TEXT_MUTED };
+                    let col = if history.can_redo() {
+                        color
+                    } else {
+                        CapBdTheme::TEXT_MUTED
+                    };
                     Icons::draw_redo(painter, rect, col);
                 },
             );
@@ -94,7 +102,9 @@ impl TopBar {
             // 4. Aspect Ratio Selector (16:9, 9:16, 1:1, etc.)
             let current_aspect = project.timeline.aspect_ratio;
             egui::ComboBox::from_id_salt("aspect_ratio_combo")
-                .selected_text(RichText::new(current_aspect.short_name()).color(CapBdTheme::ACCENT_CYAN))
+                .selected_text(
+                    RichText::new(current_aspect.short_name()).color(CapBdTheme::ACCENT_CYAN),
+                )
                 .show_ui(ui, |ui| {
                     let ratios = [
                         AspectRatio::Ratio16x9,
@@ -104,7 +114,10 @@ impl TopBar {
                         AspectRatio::Ratio21x9,
                     ];
                     for r in ratios {
-                        if ui.selectable_value(&mut project.timeline.aspect_ratio, r, r.label()).clicked() {
+                        if ui
+                            .selectable_value(&mut project.timeline.aspect_ratio, r, r.label())
+                            .clicked()
+                        {
                             // Changed aspect ratio
                         }
                     }
@@ -129,7 +142,11 @@ impl TopBar {
 
                 // Snapshot Button
                 if ui
-                    .button(RichText::new("Snapshot").color(CapBdTheme::TEXT_PRIMARY).size(12.0))
+                    .button(
+                        RichText::new("Snapshot")
+                            .color(CapBdTheme::TEXT_PRIMARY)
+                            .size(12.0),
+                    )
                     .clicked()
                 {
                     action = TopBarAction::TakeSnapshot;

@@ -48,7 +48,11 @@ impl Icons {
 
         // Background squircle
         painter.rect_filled(rect, 8.0, Color32::from_rgb(14, 14, 18));
-        painter.rect_stroke(rect, 8.0, Stroke::new(1.0, Color32::from_rgb(38, 42, 54)));
+        painter.rect_stroke(
+            rect,
+            8.0,
+            Stroke::new(1.0_f32, Color32::from_rgb(38, 42, 54)),
+        );
 
         // Upper Blade (White)
         let top_points = vec![
@@ -82,7 +86,7 @@ impl Icons {
                 Pos2::new(center.x - s * 0.6, center.y - s * 0.05),
                 Pos2::new(center.x + s * 0.6, center.y - s * 0.05),
             ],
-            Stroke::new(2.0, Color32::from_rgb(14, 14, 18)),
+            Stroke::new(2.0_f32, Color32::from_rgb(14, 14, 18)),
         );
     }
 
@@ -125,7 +129,10 @@ impl Icons {
 
         // Bar on left
         painter.rect_filled(
-            Rect::from_min_max(Pos2::new(c.x - s - 2.0, c.y - s), Pos2::new(c.x - s, c.y + s)),
+            Rect::from_min_max(
+                Pos2::new(c.x - s - 2.0, c.y - s),
+                Pos2::new(c.x - s, c.y + s),
+            ),
             1.0,
             color,
         );
@@ -146,7 +153,10 @@ impl Icons {
 
         // Bar on right
         painter.rect_filled(
-            Rect::from_min_max(Pos2::new(c.x + s, c.y - s), Pos2::new(c.x + s + 2.0, c.y + s)),
+            Rect::from_min_max(
+                Pos2::new(c.x + s, c.y - s),
+                Pos2::new(c.x + s + 2.0, c.y + s),
+            ),
             1.0,
             color,
         );
@@ -167,12 +177,18 @@ impl Icons {
 
         // Two intersecting blade lines
         painter.line_segment(
-            [Pos2::new(c.x - s, c.y - s * 0.8), Pos2::new(c.x + s, c.y + s * 0.8)],
-            Stroke::new(2.0, color),
+            [
+                Pos2::new(c.x - s, c.y - s * 0.8),
+                Pos2::new(c.x + s, c.y + s * 0.8),
+            ],
+            Stroke::new(2.0_f32, color),
         );
         painter.line_segment(
-            [Pos2::new(c.x - s, c.y + s * 0.8), Pos2::new(c.x + s, c.y - s * 0.8)],
-            Stroke::new(2.0, color),
+            [
+                Pos2::new(c.x - s, c.y + s * 0.8),
+                Pos2::new(c.x + s, c.y - s * 0.8),
+            ],
+            Stroke::new(2.0_f32, color),
         );
 
         // Pivot screw
@@ -186,14 +202,20 @@ impl Icons {
 
         // Lid
         painter.line_segment(
-            [Pos2::new(c.x - s, c.y - s * 0.7), Pos2::new(c.x + s, c.y - s * 0.7)],
-            Stroke::new(2.0, color),
+            [
+                Pos2::new(c.x - s, c.y - s * 0.7),
+                Pos2::new(c.x + s, c.y - s * 0.7),
+            ],
+            Stroke::new(2.0_f32, color),
         );
         // Can body
         painter.rect_stroke(
-            Rect::from_min_max(Pos2::new(c.x - s * 0.7, c.y - s * 0.5), Pos2::new(c.x + s * 0.7, c.y + s)),
+            Rect::from_min_max(
+                Pos2::new(c.x - s * 0.7, c.y - s * 0.5),
+                Pos2::new(c.x + s * 0.7, c.y + s),
+            ),
             2.0,
-            Stroke::new(1.8, color),
+            Stroke::new(1.8_f32, color),
         );
     }
 
@@ -212,12 +234,18 @@ impl Icons {
 
         // Curved tail arc
         painter.line_segment(
-            [Pos2::new(c.x - s * 0.2, c.y - s * 0.2), Pos2::new(c.x + s * 0.6, c.y - s * 0.2)],
-            Stroke::new(2.0, color),
+            [
+                Pos2::new(c.x - s * 0.2, c.y - s * 0.2),
+                Pos2::new(c.x + s * 0.6, c.y - s * 0.2),
+            ],
+            Stroke::new(2.0_f32, color),
         );
         painter.line_segment(
-            [Pos2::new(c.x + s * 0.6, c.y - s * 0.2), Pos2::new(c.x + s * 0.6, c.y + s * 0.6)],
-            Stroke::new(2.0, color),
+            [
+                Pos2::new(c.x + s * 0.6, c.y - s * 0.2),
+                Pos2::new(c.x + s * 0.6, c.y + s * 0.6),
+            ],
+            Stroke::new(2.0_f32, color),
         );
     }
 
@@ -236,12 +264,18 @@ impl Icons {
 
         // Curved tail arc
         painter.line_segment(
-            [Pos2::new(c.x + s * 0.2, c.y - s * 0.2), Pos2::new(c.x - s * 0.6, c.y - s * 0.2)],
-            Stroke::new(2.0, color),
+            [
+                Pos2::new(c.x + s * 0.2, c.y - s * 0.2),
+                Pos2::new(c.x - s * 0.6, c.y - s * 0.2),
+            ],
+            Stroke::new(2.0_f32, color),
         );
         painter.line_segment(
-            [Pos2::new(c.x - s * 0.6, c.y - s * 0.2), Pos2::new(c.x - s * 0.6, c.y + s * 0.6)],
-            Stroke::new(2.0, color),
+            [
+                Pos2::new(c.x - s * 0.6, c.y - s * 0.2),
+                Pos2::new(c.x - s * 0.6, c.y + s * 0.6),
+            ],
+            Stroke::new(2.0_f32, color),
         );
     }
 
@@ -259,10 +293,13 @@ impl Icons {
         painter.rect_stroke(
             Rect::from_min_max(Pos2::new(c.x - s, c.y - s), Pos2::new(c.x + s, c.y + s)),
             s * 0.6,
-            Stroke::new(2.5, color),
+            Stroke::new(2.5_f32, color),
         );
         painter.rect_filled(
-            Rect::from_min_max(Pos2::new(c.x - s * 0.4, c.y - s * 1.1), Pos2::new(c.x + s * 0.4, c.y + s * 0.4)),
+            Rect::from_min_max(
+                Pos2::new(c.x - s * 0.4, c.y - s * 1.1),
+                Pos2::new(c.x + s * 0.4, c.y + s * 0.4),
+            ),
             0.0,
             Color32::from_rgb(24, 24, 30),
         );
@@ -280,7 +317,10 @@ impl Icons {
 
         // Speaker box
         painter.rect_filled(
-            Rect::from_min_max(Pos2::new(c.x - s, c.y - s * 0.4), Pos2::new(c.x - s * 0.4, c.y + s * 0.4)),
+            Rect::from_min_max(
+                Pos2::new(c.x - s, c.y - s * 0.4),
+                Pos2::new(c.x - s * 0.4, c.y + s * 0.4),
+            ),
             1.0,
             color,
         );
@@ -296,8 +336,11 @@ impl Icons {
         if muted {
             // Diagonal red slash across
             painter.line_segment(
-                [Pos2::new(c.x - s * 0.8, c.y + s * 0.8), Pos2::new(c.x + s * 0.8, c.y - s * 0.8)],
-                Stroke::new(2.0, Color32::from_rgb(255, 69, 58)),
+                [
+                    Pos2::new(c.x - s * 0.8, c.y + s * 0.8),
+                    Pos2::new(c.x + s * 0.8, c.y - s * 0.8),
+                ],
+                Stroke::new(2.0_f32, Color32::from_rgb(255, 69, 58)),
             );
         } else {
             // Sound wave arc

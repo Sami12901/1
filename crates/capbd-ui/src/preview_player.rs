@@ -56,14 +56,21 @@ impl PreviewPlayer {
 
             // Render current frame if frame changed or texture is missing
             let current_frame = timeline.playhead_frame;
-            let needs_update = self.texture.is_none() || self.last_rendered_frame != Some(current_frame);
+            let needs_update =
+                self.texture.is_none() || self.last_rendered_frame != Some(current_frame);
 
             if needs_update {
                 // Render at 640x360 or proportional preview resolution for fluid performance
                 let preview_h = 360;
                 let preview_w = (preview_h as f32 * aspect_ratio).round() as u32;
 
-                let fb = TimelineCompositor::render_frame(timeline, current_frame, preview_w, preview_h, cache);
+                let fb = TimelineCompositor::render_frame(
+                    timeline,
+                    current_frame,
+                    preview_w,
+                    preview_h,
+                    cache,
+                );
                 let color_image = ColorImage::from_rgba_unmultiplied(
                     [fb.width as usize, fb.height as usize],
                     &fb.data,
@@ -87,7 +94,11 @@ impl PreviewPlayer {
             }
 
             // Outline around active video area
-            painter.rect_stroke(video_rect, 0.0, egui::Stroke::new(1.0, Color32::from_rgb(34, 38, 48)));
+            painter.rect_stroke(
+                video_rect,
+                0.0,
+                egui::Stroke::new(1.0_f32, Color32::from_rgb(34, 38, 48)),
+            );
 
             // Transport Control Bar
             ui.add_space(4.0);
@@ -95,18 +106,30 @@ impl PreviewPlayer {
                 ui.spacing_mut().item_spacing = vec2(8.0, 0.0);
 
                 // Jump to Start
-                if Icons::button_custom(ui, "btn_jump_start", vec2(28.0, 28.0), "Jump to Start (Home)", |p, r, c| {
-                    Icons::draw_step_back(p, r, c);
-                })
+                if Icons::button_custom(
+                    ui,
+                    "btn_jump_start",
+                    vec2(28.0, 28.0),
+                    "Jump to Start (Home)",
+                    |p, r, c| {
+                        Icons::draw_step_back(p, r, c);
+                    },
+                )
                 .clicked()
                 {
                     timeline.playhead_frame = 0;
                 }
 
                 // Step Back 1 Frame
-                if Icons::button_custom(ui, "btn_step_back", vec2(28.0, 28.0), "Step Back 1 Frame (Left Arrow)", |p, r, c| {
-                    Icons::draw_step_back(p, r, c);
-                })
+                if Icons::button_custom(
+                    ui,
+                    "btn_step_back",
+                    vec2(28.0, 28.0),
+                    "Step Back 1 Frame (Left Arrow)",
+                    |p, r, c| {
+                        Icons::draw_step_back(p, r, c);
+                    },
+                )
                 .clicked()
                 {
                     timeline.playhead_frame = timeline.playhead_frame.saturating_sub(1);
@@ -118,7 +141,11 @@ impl PreviewPlayer {
                     ui,
                     "btn_play_pause",
                     vec2(34.0, 34.0),
-                    if is_playing { "Pause (Space)" } else { "Play (Space)" },
+                    if is_playing {
+                        "Pause (Space)"
+                    } else {
+                        "Play (Space)"
+                    },
                     |p, r, c| {
                         if is_playing {
                             Icons::draw_pause(p, r, c);
@@ -132,18 +159,31 @@ impl PreviewPlayer {
                 }
 
                 // Step Forward 1 Frame
-                if Icons::button_custom(ui, "btn_step_fwd", vec2(28.0, 28.0), "Step Forward 1 Frame (Right Arrow)", |p, r, c| {
-                    Icons::draw_step_forward(p, r, c);
-                })
+                if Icons::button_custom(
+                    ui,
+                    "btn_step_fwd",
+                    vec2(28.0, 28.0),
+                    "Step Forward 1 Frame (Right Arrow)",
+                    |p, r, c| {
+                        Icons::draw_step_forward(p, r, c);
+                    },
+                )
                 .clicked()
                 {
-                    timeline.playhead_frame = (timeline.playhead_frame + 1).min(timeline.total_duration_frames().max(1));
+                    timeline.playhead_frame =
+                        (timeline.playhead_frame + 1).min(timeline.total_duration_frames().max(1));
                 }
 
                 // Jump to End
-                if Icons::button_custom(ui, "btn_jump_end", vec2(28.0, 28.0), "Jump to End (End)", |p, r, c| {
-                    Icons::draw_step_forward(p, r, c);
-                })
+                if Icons::button_custom(
+                    ui,
+                    "btn_jump_end",
+                    vec2(28.0, 28.0),
+                    "Jump to End (End)",
+                    |p, r, c| {
+                        Icons::draw_step_forward(p, r, c);
+                    },
+                )
                 .clicked()
                 {
                     timeline.playhead_frame = timeline.total_duration_frames();
@@ -165,14 +205,23 @@ impl PreviewPlayer {
                 // Right aligned audio controls
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                     let mut vol = audio_engine.master_volume();
-                    if ui.add(egui::Slider::new(&mut vol, 0.0..=1.5).show_value(false)).changed() {
+                    if ui
+                        .add(egui::Slider::new(&mut vol, 0.0..=1.5).show_value(false))
+                        .changed()
+                    {
                         audio_engine.set_master_volume(vol);
                     }
 
                     let muted = audio_engine.is_muted();
-                    if Icons::button_custom(ui, "btn_mute_vol", vec2(28.0, 28.0), "Mute Audio", |p, r, _| {
-                        Icons::draw_volume(p, r, muted);
-                    })
+                    if Icons::button_custom(
+                        ui,
+                        "btn_mute_vol",
+                        vec2(28.0, 28.0),
+                        "Mute Audio",
+                        |p, r, _| {
+                            Icons::draw_volume(p, r, muted);
+                        },
+                    )
                     .clicked()
                     {
                         audio_engine.toggle_mute();

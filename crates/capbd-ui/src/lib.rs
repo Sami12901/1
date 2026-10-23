@@ -131,7 +131,8 @@ impl CapBdApp {
                 let frames_to_advance = (dt * self.project.timeline.fps).round() as u64;
                 if frames_to_advance > 0 {
                     let total = self.project.timeline.total_duration_frames().max(1);
-                    self.project.timeline.playhead_frame = (self.project.timeline.playhead_frame + frames_to_advance) % total;
+                    self.project.timeline.playhead_frame =
+                        (self.project.timeline.playhead_frame + frames_to_advance) % total;
                     self.last_update_time = current_time;
                 }
             }
@@ -182,7 +183,8 @@ impl CapBdApp {
         TopBottomPanel::bottom("capbd_bottom_timeline")
             .exact_height(240.0)
             .show(ctx, |ui| {
-                self.timeline_view.render(ui, &mut self.project.timeline, &mut self.history);
+                self.timeline_view
+                    .render(ui, &mut self.project.timeline, &mut self.history);
             });
 
         // 5. Left Media Asset Browser Panel
@@ -262,13 +264,15 @@ impl CapBdApp {
 
             // Left Arrow: Step back 1 frame
             if i.key_pressed(Key::ArrowLeft) {
-                self.project.timeline.playhead_frame = self.project.timeline.playhead_frame.saturating_sub(1);
+                self.project.timeline.playhead_frame =
+                    self.project.timeline.playhead_frame.saturating_sub(1);
             }
 
             // Right Arrow: Step forward 1 frame
             if i.key_pressed(Key::ArrowRight) {
                 let max_f = self.project.timeline.total_duration_frames().max(1);
-                self.project.timeline.playhead_frame = (self.project.timeline.playhead_frame + 1).min(max_f);
+                self.project.timeline.playhead_frame =
+                    (self.project.timeline.playhead_frame + 1).min(max_f);
             }
 
             // Home: Jump to start
@@ -278,7 +282,8 @@ impl CapBdApp {
 
             // End: Jump to end
             if i.key_pressed(Key::End) {
-                self.project.timeline.playhead_frame = self.project.timeline.total_duration_frames();
+                self.project.timeline.playhead_frame =
+                    self.project.timeline.total_duration_frames();
             }
         });
     }

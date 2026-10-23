@@ -19,7 +19,11 @@ impl FrameBuffer {
         for _ in 0..pixel_count {
             data.extend_from_slice(&color);
         }
-        Self { width, height, data }
+        Self {
+            width,
+            height,
+            data,
+        }
     }
 
     pub fn new_empty(width: u32, height: u32) -> Self {
@@ -51,7 +55,13 @@ impl MediaDecoderCache {
     }
 
     /// Render or retrieve a frame for a given clip at a specific timeline frame
-    pub fn get_frame(&self, clip: &Clip, timeline_frame: u64, width: u32, height: u32) -> FrameBuffer {
+    pub fn get_frame(
+        &self,
+        clip: &Clip,
+        timeline_frame: u64,
+        width: u32,
+        height: u32,
+    ) -> FrameBuffer {
         let relative_frame = timeline_frame.saturating_sub(clip.start_frame) + clip.in_point_frames;
 
         match &clip.source {
@@ -65,12 +75,12 @@ impl MediaDecoderCache {
                 let a = (color[3] * 255.0) as u8;
                 FrameBuffer::new_solid(width, height, [r, g, b, a])
             }
-            MediaSource::File { path, .. } => {
-                self.load_file_frame(path, width, height)
-            }
-            MediaSource::Text { content, font_size, font_color } => {
-                Self::generate_text_placeholder(content, *font_size, *font_color, width, height)
-            }
+            MediaSource::File { path, .. } => self.load_file_frame(path, width, height),
+            MediaSource::Text {
+                content,
+                font_size,
+                font_color,
+            } => Self::generate_text_placeholder(content, *font_size, *font_color, width, height),
         }
     }
 
@@ -157,15 +167,21 @@ impl MediaDecoderCache {
                     let yf = y as f32;
                     for x in 0..width {
                         let xf = x as f32;
-                        let d1 = ((xf - cx1).hypot(yf - cy1) / (width as f32 * 0.7)).clamp(0.0, 1.0);
-                        let d2 = ((xf - cx2).hypot(yf - cy2) / (width as f32 * 0.7)).clamp(0.0, 1.0);
+                        let d1 =
+                            ((xf - cx1).hypot(yf - cy1) / (width as f32 * 0.7)).clamp(0.0, 1.0);
+                        let d2 =
+                            ((xf - cx2).hypot(yf - cy2) / (width as f32 * 0.7)).clamp(0.0, 1.0);
 
                         // Cyan to Neon Magenta/Purple mix
                         let r = ((1.0 - d1) * 0.0 + (1.0 - d2) * 230.0) as u8;
                         let g = ((1.0 - d1) * 229.0 + (1.0 - d2) * 20.0) as u8;
                         let b = ((1.0 - d1) * 255.0 + (1.0 - d2) * 240.0) as u8;
 
-                        img.put_pixel(x, y, Rgba([r.clamp(18, 255), g.clamp(18, 255), b.clamp(28, 255), 255]));
+                        img.put_pixel(
+                            x,
+                            y,
+                            Rgba([r.clamp(18, 255), g.clamp(18, 255), b.clamp(28, 255), 255]),
+                        );
                     }
                 }
             }
@@ -190,11 +206,14 @@ impl MediaDecoderCache {
                             color = [255, 255, 255, 255]; // Circles
                         } else if dist < radius {
                             // Crosshairs
-                            if (dx.abs() < 2.0 && dy.abs() < radius) || (dy.abs() < 2.0 && dx.abs() < radius) {
+                            if (dx.abs() < 2.0 && dy.abs() < radius)
+                                || (dy.abs() < 2.0 && dx.abs() < radius)
+                            {
                                 color = [200, 200, 200, 255];
                             } else {
                                 // Rotating clock sector
-                                let pixel_angle = (dy.atan2(dx) + std::f32::consts::PI) % std::f32::consts::TAU;
+                                let pixel_angle =
+                                    (dy.atan2(dx) + std::f32::consts::PI) % std::f32::consts::TAU;
                                 if pixel_angle < angle {
                                     color = [40, 50, 70, 255];
                                 }
@@ -226,7 +245,8 @@ impl MediaDecoderCache {
                             let row = y - horizon;
                             let depth = row as f32 / (height - horizon) as f32;
                             let line_y = (row % 16 == 0) as u8;
-                            let persp_x = ((x as i32 - width as i32 / 2) as f32 / depth.max(0.1)) as i32;
+                            let persp_x =
+                                ((x as i32 - width as i32 / 2) as f32 / depth.max(0.1)) as i32;
                             let line_x = (persp_x.abs() % 40 < 2) as u8;
 
                             if line_y == 1 || line_x == 1 {

@@ -139,11 +139,7 @@ impl Clip {
         }
     }
 
-    pub fn new_text(
-        content: impl Into<String>,
-        start_frame: u64,
-        duration_frames: u64,
-    ) -> Self {
+    pub fn new_text(content: impl Into<String>, start_frame: u64, duration_frames: u64) -> Self {
         let text_content = content.into();
         Self {
             id: ClipId::new(),
@@ -194,7 +190,8 @@ impl Clip {
         right.id = ClipId::new();
         right.start_frame = split_frame;
         right.duration_frames = right_duration;
-        right.in_point_frames = self.in_point_frames + (left_duration as f32 * self.speed).round() as u64;
+        right.in_point_frames =
+            self.in_point_frames + (left_duration as f32 * self.speed).round() as u64;
 
         Ok((left, right))
     }
@@ -203,7 +200,9 @@ impl Clip {
     pub fn trim_start(&mut self, new_start_frame: u64) -> Result<()> {
         let current_end = self.end_frame();
         if new_start_frame >= current_end {
-            return Err(CoreError::InvalidDuration("New start must precede current end".into()));
+            return Err(CoreError::InvalidDuration(
+                "New start must precede current end".into(),
+            ));
         }
         let delta = new_start_frame as i64 - self.start_frame as i64;
         self.start_frame = new_start_frame;
@@ -215,7 +214,9 @@ impl Clip {
     /// Trim end of the clip (adjust duration)
     pub fn trim_end(&mut self, new_end_frame: u64) -> Result<()> {
         if new_end_frame <= self.start_frame {
-            return Err(CoreError::InvalidDuration("New end must succeed current start".into()));
+            return Err(CoreError::InvalidDuration(
+                "New end must succeed current start".into(),
+            ));
         }
         self.duration_frames = new_end_frame - self.start_frame;
         Ok(())
