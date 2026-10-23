@@ -4,7 +4,7 @@ use capbd_core::timeline::Timeline;
 use capbd_engine::audio_engine::AudioEngine;
 use capbd_engine::exporter::TimelineCompositor;
 use capbd_engine::video_decoder::MediaDecoderCache;
-use egui::{vec2, Color32, ColorImage, Rect, RichText, Sense, TextureHandle, TextureOptions, Ui, Vec2};
+use egui::{vec2, Color32, ColorImage, Rect, RichText, Sense, TextureHandle, TextureOptions, Ui};
 
 pub struct PreviewPlayer {
     texture: Option<TextureHandle>,

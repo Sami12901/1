@@ -1,4 +1,4 @@
-use egui::{Color32, CornerRadius, Margin, Stroke, Visuals};
+use egui::{Color32, Margin, Rounding, Stroke, Visuals};
 
 pub struct CapBdTheme;
 
@@ -40,34 +40,34 @@ impl CapBdTheme {
 
         // Widgets
         visuals.widgets.noninteractive.bg_fill = Self::BG_PANEL;
-        visuals.widgets.noninteractive.bg_stroke = Stroke::new(1.0, Self::BORDER);
-        visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0, Self::TEXT_PRIMARY);
-        visuals.widgets.noninteractive.corner_radius = CornerRadius::same(6);
+        visuals.widgets.noninteractive.bg_stroke = Stroke::new(1.0_f32, Self::BORDER);
+        visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0_f32, Self::TEXT_PRIMARY);
+        visuals.widgets.noninteractive.rounding = Rounding::same(6.0_f32);
 
         visuals.widgets.inactive.bg_fill = Self::BG_CARD;
-        visuals.widgets.inactive.bg_stroke = Stroke::new(1.0, Self::BORDER);
-        visuals.widgets.inactive.fg_stroke = Stroke::new(1.0, Self::TEXT_PRIMARY);
-        visuals.widgets.inactive.corner_radius = CornerRadius::same(6);
+        visuals.widgets.inactive.bg_stroke = Stroke::new(1.0_f32, Self::BORDER);
+        visuals.widgets.inactive.fg_stroke = Stroke::new(1.0_f32, Self::TEXT_PRIMARY);
+        visuals.widgets.inactive.rounding = Rounding::same(6.0_f32);
 
         visuals.widgets.hovered.bg_fill = Color32::from_rgb(42, 42, 54);
-        visuals.widgets.hovered.bg_stroke = Stroke::new(1.0, Self::ACCENT_CYAN);
-        visuals.widgets.hovered.fg_stroke = Stroke::new(1.0, Color32::WHITE);
-        visuals.widgets.hovered.corner_radius = CornerRadius::same(6);
+        visuals.widgets.hovered.bg_stroke = Stroke::new(1.0_f32, Self::ACCENT_CYAN);
+        visuals.widgets.hovered.fg_stroke = Stroke::new(1.0_f32, Color32::WHITE);
+        visuals.widgets.hovered.rounding = Rounding::same(6.0_f32);
 
         visuals.widgets.active.bg_fill = Self::ACCENT_BLUE;
-        visuals.widgets.active.bg_stroke = Stroke::new(1.0, Self::ACCENT_CYAN);
-        visuals.widgets.active.fg_stroke = Stroke::new(1.0, Color32::WHITE);
-        visuals.widgets.active.corner_radius = CornerRadius::same(6);
+        visuals.widgets.active.bg_stroke = Stroke::new(1.0_f32, Self::ACCENT_CYAN);
+        visuals.widgets.active.fg_stroke = Stroke::new(1.0_f32, Color32::WHITE);
+        visuals.widgets.active.rounding = Rounding::same(6.0_f32);
 
         visuals.selection.bg_fill = Self::ACCENT_BLUE;
-        visuals.selection.stroke = Stroke::new(1.5, Self::ACCENT_CYAN);
+        visuals.selection.stroke = Stroke::new(1.5_f32, Self::ACCENT_CYAN);
 
         ctx.set_visuals(visuals);
 
         // Adjust style spacing
         let mut style = (*ctx.style()).clone();
         style.spacing.item_spacing = egui::vec2(8.0, 8.0);
-        style.spacing.window_margin = Margin::same(12);
+        style.spacing.window_margin = Margin::same(12.0_f32);
         style.spacing.button_padding = egui::vec2(10.0, 6.0);
         ctx.set_style(style);
     }

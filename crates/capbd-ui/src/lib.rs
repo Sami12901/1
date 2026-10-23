@@ -20,7 +20,7 @@ use capbd_core::history::HistoryManager;
 use capbd_core::project::Project;
 use capbd_engine::audio_engine::AudioEngine;
 use capbd_engine::video_decoder::MediaDecoderCache;
-use egui::{vec2, CentralPanel, Color32, Key, Modifiers, SidePanel, TopBottomPanel};
+use egui::{CentralPanel, Key, SidePanel, TopBottomPanel};
 
 pub struct CapBdApp {
     pub project: Project,

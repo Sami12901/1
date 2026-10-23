@@ -1,7 +1,7 @@
 use crate::theme::CapBdTheme;
 use capbd_core::clip::{Clip, MediaKind, TestPattern};
 use capbd_core::timeline::Timeline;
-use egui::{vec2, Color32, RichText, ScrollArea, Ui};
+use egui::{Color32, RichText, ScrollArea, Ui};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MediaTab {

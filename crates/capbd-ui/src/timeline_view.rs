@@ -3,10 +3,7 @@ use crate::theme::CapBdTheme;
 use capbd_core::clip::{ClipId, MediaKind};
 use capbd_core::history::HistoryManager;
 use capbd_core::timeline::Timeline;
-use egui::{
-    pos2, vec2, Color32, CornerRadius, Pos2, Rect, Response, RichText, ScrollArea, Sense, Stroke,
-    Ui, Vec2,
-};
+use egui::{pos2, vec2, Color32, Rect, RichText, ScrollArea, Sense, Stroke, Ui};
 
 pub struct TimelineView {
     pub zoom_px_per_frame: f32,
@@ -122,7 +119,7 @@ impl TimelineView {
         &mut self,
         ui: &mut Ui,
         timeline: &mut Timeline,
-        history: &mut HistoryManager,
+        _history: &mut HistoryManager,
     ) {
         let header_width = 140.0;
         let ruler_height = 24.0;
@@ -218,20 +215,20 @@ impl TimelineView {
                         MediaKind::Image => Color32::from_rgb(0, 180, 216),
                     };
 
-                    painter.rect_filled(clip_rect, CornerRadius::same(4), clip_color);
+                    painter.rect_filled(clip_rect, 4.0_f32, clip_color);
 
                     // Selection highlight
                     if is_selected {
                         painter.rect_stroke(
                             clip_rect,
-                            CornerRadius::same(4),
-                            Stroke::new(2.0, CapBdTheme::ACCENT_CYAN),
+                            4.0_f32,
+                            Stroke::new(2.0_f32, CapBdTheme::ACCENT_CYAN),
                         );
                     } else {
                         painter.rect_stroke(
                             clip_rect,
-                            CornerRadius::same(4),
-                            Stroke::new(1.0, Color32::from_white_alpha(40)),
+                            4.0_f32,
+                            Stroke::new(1.0_f32, Color32::from_white_alpha(40)),
                         );
                     }
 

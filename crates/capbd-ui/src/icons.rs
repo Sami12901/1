@@ -6,7 +6,7 @@ impl Icons {
     /// Renders a clickable icon button with custom vector geometry
     pub fn button_custom(
         ui: &mut Ui,
-        id_source: impl std::hash::Hash,
+        _id_source: impl std::hash::Hash,
         size: Vec2,
         tooltip: &str,
         render_icon: impl FnOnce(&Painter, Rect, Color32),
@@ -301,10 +301,11 @@ impl Icons {
             );
         } else {
             // Sound wave arc
-            painter.line_segment(
-                [Pos2::new(c.x + s * 0.6, c.y - s * 0.5), Pos2::new(c.x + s * 0.8, c.y), Pos2::new(c.x + s * 0.6, c.y + s * 0.5)],
-                Stroke::new(1.8, color),
-            );
+            let p1 = Pos2::new(c.x + s * 0.6, c.y - s * 0.5);
+            let p2 = Pos2::new(c.x + s * 0.8, c.y);
+            let p3 = Pos2::new(c.x + s * 0.6, c.y + s * 0.5);
+            painter.line_segment([p1, p2], Stroke::new(1.8_f32, color));
+            painter.line_segment([p2, p3], Stroke::new(1.8_f32, color));
         }
     }
 }

@@ -1,8 +1,8 @@
 use crate::theme::CapBdTheme;
 use capbd_core::timeline::Timeline;
-use capbd_engine::exporter::{ExportProgress, ExportResolution, ExportSettings, TimelineCompositor};
+use capbd_engine::exporter::{ExportResolution, ExportSettings, TimelineCompositor};
 use capbd_engine::video_decoder::MediaDecoderCache;
-use egui::{vec2, Align2, Color32, ProgressBar, RichText, Ui, Window};
+use egui::{vec2, Align2, Color32, ProgressBar, RichText, Window};
 use std::path::PathBuf;
 
 pub struct ExportDialog {
@@ -110,7 +110,6 @@ impl ExportDialog {
                         .fill(CapBdTheme::ACCENT_CYAN);
 
                         if ui.add(start_btn).clicked() {
-                            self.is_exporting = true;
                             self.export_progress = 0.5;
 
                             // Export snapshot or render test frame
@@ -129,7 +128,6 @@ impl ExportDialog {
                                     self.status_message = format!("Export error: {}", e);
                                 }
                             }
-                            self.is_exporting = false;
                         }
                     });
                 });

@@ -3,7 +3,7 @@ use crate::theme::CapBdTheme;
 use capbd_core::history::HistoryManager;
 use capbd_core::project::Project;
 use capbd_core::timeline::AspectRatio;
-use egui::{vec2, Align, Color32, Layout, Response, RichText, Ui};
+use egui::{vec2, Align, Color32, Layout, RichText, Ui};
 
 pub struct TopBar;
 
@@ -120,7 +120,7 @@ impl TopBar {
                         .size(13.0),
                 )
                 .fill(CapBdTheme::ACCENT_CYAN)
-                .corner_radius(egui::CornerRadius::same(14));
+                .rounding(egui::Rounding::same(14.0_f32));
 
                 if ui.add(export_btn).clicked() {
                     *show_export_modal = true;
