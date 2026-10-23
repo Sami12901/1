@@ -1,0 +1,21 @@
+[package]
+name = "capbd-engine"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "GPU rendering engine, WGSL shaders, audio mixer, and export pipeline for CapBD"
+
+[dependencies]
+capbd-core = { path = "../capbd-core" }
+bytemuck = { version = "1.19", features = ["derive"] }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+log = "0.4"
+thiserror = "1.0"
+rodio = { version = "0.19", default-features = false }
+
+[dependencies.wgpu]
+version = "23.0"
+default-features = false
+features = ["wgsl"]

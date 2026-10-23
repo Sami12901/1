@@ -1,0 +1,19 @@
+[package]
+name = "capbd-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Core timeline data structures, clip models, and project format for CapBD"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.10", features = ["v4", "serde"] }
+thiserror = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+log = "0.4"
+
+[dev-dependencies]
+pretty_assertions = "1.4"

@@ -1,0 +1,21 @@
+[package]
+name = "capbd-android"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Android NDK native activity package for CapBD"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+capbd-core = { path = "../capbd-core" }
+capbd-engine = { path = "../capbd-engine" }
+capbd-ui = { path = "../capbd-ui" }
+log = "0.4"
+
+[target.'cfg(target_os = "android")'.dependencies]
+android-activity = { version = "0.6", features = ["native-activity"] }
+android_logger = "0.14"

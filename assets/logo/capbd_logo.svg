@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Minimalist Flat Squircle Canvas (Apple / CapCut style) -->
+  <rect width="512" height="512" rx="112" fill="#0D0D11"/>
+  
+  <!-- Subtle 1px crisp outline border -->
+  <rect x="1" y="1" width="510" height="510" rx="111" fill="none" stroke="#23232B" stroke-width="2"/>
+
+  <!-- CapBD Iconic Twin-Blade Cut Mark (Flat, Bold, High-Precision Vector) -->
+  <g id="capbd-emblem">
+    <!-- Top Cut Blade: Clean geometric trapezoid with negative-space cut -->
+    <path d="M 124 148
+             L 348 148
+             C 362 148 372 158 370 172
+             L 336 240
+             C 334 244 330 248 324 248
+             L 164 248
+             C 152 248 142 238 146 226
+             L 162 168
+             C 164 158 158 148 124 148 Z"
+          fill="#FFFFFF"/>
+
+    <!-- Bottom Cut Blade: Interlocking geometric trapezoid mirrored & offset -->
+    <path d="M 388 364
+             L 164 364
+             C 150 364 140 354 142 340
+             L 176 272
+             C 178 268 182 264 188 264
+             L 348 264
+             C 360 264 370 274 366 286
+             L 350 344
+             C 348 354 354 364 388 364 Z"
+          fill="#FFFFFF"/>
+
+    <!-- Center Precision Playhead / Cut Blade Slit -->
+    <!-- Distinctive Electric Cyan Brand Accent (#00F2FE) -->
+    <polygon points="196,242 316,242 304,270 184,270" fill="#00F2FE"/>
+    
+    <!-- Stylized 'BD' Notch: Sharp editorial cut on the right flank -->
+    <circle cx="346" cy="204" r="14" fill="#0D0D11"/>
+    <circle cx="346" cy="204" r="7" fill="#00F2FE"/>
+  </g>
+</svg>

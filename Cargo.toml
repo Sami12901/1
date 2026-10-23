@@ -1,0 +1,26 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/capbd-core",
+    "crates/capbd-engine",
+    "crates/capbd-ui",
+    "crates/capbd-desktop",
+    "crates/capbd-android",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["CapBD Contributors <team@capbd.org>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/capbd/capbd"
+description = "CapBD: Modern Cross-Platform Photo & Video Editor in Rust"
+keywords = ["video-editor", "capcut", "rust", "egui", "cross-platform"]
+categories = ["multimedia::video", "gui"]
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = true

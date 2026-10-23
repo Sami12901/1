@@ -1,0 +1,71 @@
+name: CapBD Multi-Platform Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release-desktop:
+    name: Build Desktop Release (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            bin_name: capbd.exe
+            archive_name: capbd-windows-x64.zip
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            bin_name: capbd
+            archive_name: capbd-linux-x64.tar.gz
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            bin_name: capbd
+            archive_name: capbd-macos-arm64.tar.gz
+          - os: macos-13
+            target: x86_64-apple-darwin
+            bin_name: capbd
+            archive_name: capbd-macos-x64.tar.gz
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install Linux Build Dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev libvulkan-dev pkg-config
+
+      - name: Build Desktop Binary in Release Mode
+        run: cargo build --release -p capbd-desktop --target ${{ matrix.target }}
+
+      - name: Package Windows Binary
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          cd target/${{ matrix.target }}/release
+          7z a -tzip ../../../${{ matrix.archive_name }} ${{ matrix.bin_name }}
+
+      - name: Package Unix Binary (Linux / macOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          cd target/${{ matrix.target }}/release
+          tar -czf ../../../${{ matrix.archive_name }} ${{ matrix.bin_name }}
+
+      - name: Publish Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.archive_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
